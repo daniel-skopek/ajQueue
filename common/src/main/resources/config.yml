@@ -20,6 +20,11 @@
 #                                                                                                           #
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
+# COMMENT WARNING: This config is auto-updated when necessary, which will keep your options but will overwrite comments.
+#  Old configs are always backed up with a different file name, so you can recover them if you want,
+#   but I'd recommend not adding custom comments to the config.
+#  Note that the default config is always available at https://wiki.ajg0702.us/ajQueue/configs/main
+
 
 # The time the server will wait between sending people in the queue (in seconds, supports decimals)
 #  Default: 5
@@ -480,7 +485,7 @@ debug: false
 
 
 # Don't touch this number please
-config-version: 63
+config-version: 64
 
 
 # This is ONLY here so that they can be moved to messages.yml. Please edit these in messages.yml!
