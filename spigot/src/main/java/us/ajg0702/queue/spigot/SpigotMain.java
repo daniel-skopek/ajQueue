@@ -131,10 +131,8 @@ public class SpigotMain extends JavaPlugin implements PluginMessageListener,List
 		
 	    String subchannel = in.readUTF();
 
-	    if(subchannel.equals("ack")) {
-	    	hasProxy = true;
-			return;
-		}
+		if(!hasProxy) hasProxy = true;
+	    if(subchannel.equals("ack")) return;
 
 	    if(subchannel.equals("inqueueevent")) {
 	    	QueueScoreboardActivator e = new QueueScoreboardActivator(player);
@@ -210,19 +208,21 @@ public class SpigotMain extends JavaPlugin implements PluginMessageListener,List
 		e.setMotd("ajQueue;whitelisted="+whitelist);
 	}
 
-	public boolean checkProxyResponse(CommandSender sender) {
+	public void checkProxyResponse(CommandSender sender) {
 		if(!hasProxy() && config.getBoolean("check-proxy-response")) {
 			if(sender instanceof Player) sendMessage((Player) sender, "ack", "");
-			sender.sendMessage(
-					color(
-							"&c" +
-									(sender.hasPermission("ajqueue.manage") ? "ajQueue" : "The queue plugin") +
-									" must also be installed on the proxy!&7 If it has been installed on the proxy, make sure it loaded correctly and try again."
-					)
-			);
-			return true;
+			// Delay the message by half a second just in case we get a response (from either command or ack)
+			getScheduler().runTaskLaterAsynchronously(() -> {
+				if(hasProxy()) return;
+				sender.sendMessage(
+						color(
+								"&c" +
+										(sender.hasPermission("ajqueue.manage") ? "ajQueue" : "The queue plugin") +
+										" must also be installed on the proxy!&7 If it has been installed on the proxy, make sure it loaded correctly and try again."
+						)
+				);
+			}, 10);
 		}
-		return false;
 	}
 
 	public CompatScheduler getScheduler() {

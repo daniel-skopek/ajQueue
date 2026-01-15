@@ -21,7 +21,7 @@ public class SpigotLeaveQueueCommand extends BukkitCommand {
     }
     @Override
     public boolean execute(@NotNull CommandSender sender, @NotNull String label, @NotNull String[] args) {
-        if(pl.checkProxyResponse(sender)) return true;
+        pl.checkProxyResponse(sender);
         Player player = null;
         if(sender instanceof Player) {
             player = (Player) sender;
