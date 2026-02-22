@@ -8,6 +8,7 @@ import us.ajg0702.queue.api.premium.PermissionGetter;
 import us.ajg0702.utils.common.Config;
 
 import java.util.List;
+import java.util.UUID;
 
 public class LogicGetterImpl implements LogicGetter {
 
@@ -28,6 +29,11 @@ public class LogicGetterImpl implements LogicGetter {
 
     @Override
     public PermissionGetter getPermissionGetter() {
+        return null;
+    }
+
+    @Override
+    public List<String> getPermissions(UUID uuid) {
         return null;
     }
 }

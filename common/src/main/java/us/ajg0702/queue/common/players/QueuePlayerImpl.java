@@ -6,6 +6,7 @@ import us.ajg0702.queue.api.AjQueueAPI;
 import us.ajg0702.queue.api.events.PreConnectEvent;
 import us.ajg0702.queue.api.players.AdaptedPlayer;
 import us.ajg0702.queue.api.players.QueuePlayer;
+import us.ajg0702.queue.api.premium.PermissionGetter;
 import us.ajg0702.queue.api.queues.QueueServer;
 import us.ajg0702.queue.api.queues.QueueType;
 import us.ajg0702.queue.api.server.AdaptedServer;
@@ -176,9 +177,17 @@ public class QueuePlayerImpl implements QueuePlayer {
     public void setLeaveTime(long leaveTime) {
         // Update the offline time when they leave to be sure we have the most up-to-date allowed offline time
         if(AjQueueAPI.getInstance().isPremium()) {
-            maxOfflineTime = AjQueueAPI.getInstance().getLogic().getPermissionGetter().getMaxOfflineTime(player);
+            PermissionGetter permissionGetter = AjQueueAPI.getInstance().getLogic().getPermissionGetter();
+            if(player != null) {
+                maxOfflineTime = permissionGetter.getMaxOfflineTime(player);
+            } else if(!"Built-In".equals(permissionGetter.getSelected().getName())) { // built-in doesnt support getting permissions by uuid
+                maxOfflineTime = permissionGetter.getMaxOfflineTime(uuid);
+            }
         } else {
-            maxOfflineTime = player.hasPermission("ajqueue.stayqueued") ? 60 : 0;
+            if(player != null) {
+                maxOfflineTime = player.hasPermission("ajqueue.stayqueued") ? 60 : 0;
+            }
+            // else: keep existing maxOfflineTime
         }
 
         this.leaveTime = leaveTime;

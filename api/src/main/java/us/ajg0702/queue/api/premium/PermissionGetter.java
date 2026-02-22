@@ -1,7 +1,8 @@
 package us.ajg0702.queue.api.premium;
 
 import us.ajg0702.queue.api.players.AdaptedPlayer;
-import us.ajg0702.queue.api.premium.PermissionHook;
+
+import java.util.UUID;
 
 public interface PermissionGetter {
     PermissionHook getSelected();
@@ -15,4 +16,10 @@ public interface PermissionGetter {
     boolean hasContextBypass(AdaptedPlayer player, String server);
 
     boolean hasUniqueFullBypass(AdaptedPlayer player, String server);
+
+    int getMaxOfflineTime(UUID uuid);
+
+    int getPriority(UUID uuid);
+
+    int getServerPriority(String server, UUID uuid);
 }

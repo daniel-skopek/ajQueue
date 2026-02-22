@@ -45,17 +45,41 @@ public class PermissionGetterImpl implements PermissionGetter {
 
     @Override
     public int getMaxOfflineTime(AdaptedPlayer player) {
+        if (player == null) {
+            return -1;
+        }
         return getHighestPermission(player, "ajqueue.stayqueued.");
     }
 
     @Override
+    public int getMaxOfflineTime(UUID uuid) {
+        return getHighestPermission(uuid, "ajqueue.stayqueued.");
+    }
+
+    @Override
     public int getPriority(AdaptedPlayer player) {
+        if (player == null) {
+            return -1;
+        }
         return getHighestPermission(player, "ajqueue.priority.");
     }
 
     @Override
+    public int getPriority(UUID uuid) {
+        return getHighestPermission(uuid, "ajqueue.priority.");
+    }
+
+    @Override
     public int getServerPriotity(String server, AdaptedPlayer player) {
-        return getHighestPermission(player, "ajqueue.serverpriority."+server+".");
+        if (player == null) {
+            return -1;
+        }
+        return getHighestPermission(player, "ajqueue.serverpriority." + server + ".");
+    }
+
+    @Override
+    public int getServerPriority(String server, UUID uuid) {
+        return getHighestPermission(uuid, "ajqueue.serverpriority." + server + ".");
     }
 
     @Override
@@ -82,8 +106,23 @@ public class PermissionGetterImpl implements PermissionGetter {
             return -1;
         }
         List<String> perms = getSelected().getPermissions(player);
+        return getHighestPermissionFromList(perms, prefix);
+    }
+
+    private int getHighestPermission(UUID uuid, String prefix) {
+        if(getSelected() == null) {
+            return -1;
+        }
+        List<String> perms = getSelected().getPermissions(uuid);
+        return getHighestPermissionFromList(perms, prefix);
+    }
+
+    private int getHighestPermissionFromList(List<String> perms, String prefix) {
+        if (perms == null || perms.isEmpty()) {
+            return -1;
+        }
         Iterator<String> it = perms.iterator();
-        String highestPerm = prefix+"0";
+        String highestPerm = prefix + "0";
         while(it.hasNext()) {
             String perm = it.next();
             if(!perm.startsWith(prefix)) continue;

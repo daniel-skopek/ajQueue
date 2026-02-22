@@ -10,6 +10,7 @@ import us.ajg0702.queue.common.QueueMain;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 public class PhoenixHook implements PermissionHook {
 
@@ -40,13 +41,18 @@ public class PhoenixHook implements PermissionHook {
 
     @Override
     public List<String> getPermissions(AdaptedPlayer player) {
+        return getPermissions(player.getUniqueId());
+    }
+
+    @Override
+    public List<String> getPermissions(UUID uuid) {
         Phoenix phoenix = Phoenix.getInstance();
 
-        IProfile profile = phoenix.getProfileHandler().getProfile(player.getUniqueId());
+        IProfile profile = phoenix.getProfileHandler().getProfile(uuid);
 
         if(profile == null) {
-            main.getLogger().warn("Phoenix doesnt seem to have data loaded for "+player.getName()+"! " +
-                    "Because of this I can't load priority permissions. Acting like "+player.getName()+" doesnt have any.");
+            main.getLogger().warn("Phoenix doesnt seem to have data loaded for "+uuid+"! " +
+                    "Because of this I can't load priority permissions. Acting like "+uuid+" doesnt have any.");
             return new ArrayList<>();
         }
 

@@ -9,6 +9,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.UUID;
 
 public class BuiltInHook implements PermissionHook {
 
@@ -77,5 +78,10 @@ public class BuiltInHook implements PermissionHook {
         }
 
         return player.getPermissions();
+    }
+
+    @Override
+    public List<String> getPermissions(UUID uuid) {
+        return Collections.emptyList();
     }
 }

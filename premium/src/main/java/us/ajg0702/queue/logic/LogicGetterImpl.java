@@ -9,6 +9,7 @@ import us.ajg0702.queue.common.QueueMain;
 import us.ajg0702.utils.common.Config;
 
 import java.util.List;
+import java.util.UUID;
 
 public class LogicGetterImpl implements LogicGetter {
     PremiumLogic logic;
@@ -35,5 +36,11 @@ public class LogicGetterImpl implements LogicGetter {
     @Override
     public PermissionGetter getPermissionGetter() {
         return logic.getPermissionGetter();
+    }
+
+    @Override
+    public List<String> getPermissions(UUID uuid) {
+        if(logic == null) return null;
+        return logic.getPermissionGetter().getSelected().getPermissions(uuid);
     }
 }

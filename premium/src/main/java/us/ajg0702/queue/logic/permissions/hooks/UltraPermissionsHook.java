@@ -10,6 +10,7 @@ import us.ajg0702.queue.api.premium.PermissionHook;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 public class UltraPermissionsHook implements PermissionHook {
 
@@ -34,17 +35,22 @@ public class UltraPermissionsHook implements PermissionHook {
     }
 
     @Override
-    public List<String> getPermissions(AdaptedPlayer player) {
+    public List<String> getPermissions(UUID uuid) {
         UltraPermissionsAPI ultraPermissionsAPI = UltraPermissions.getAPI();
 
-        Optional<User> userOptional =  ultraPermissionsAPI
+        Optional<User> userOptional = ultraPermissionsAPI
                 .getUsers()
-                .uuid(player.getUniqueId());
+                .uuid(uuid);
         if(!userOptional.isPresent()) return new ArrayList<>();
         User user = userOptional.get();
 
         List<String> permissions = new ArrayList<>();
         user.getPermissions().bungee().forEach(permission -> permissions.add(permission.getName()));
         return permissions;
+    }
+
+    @Override
+    public List<String> getPermissions(AdaptedPlayer player) {
+        return getPermissions(player.getUniqueId());
     }
 }

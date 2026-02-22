@@ -6,6 +6,7 @@ import us.ajg0702.queue.api.premium.Logic;
 import us.ajg0702.utils.common.Config;
 
 import java.util.List;
+import java.util.UUID;
 
 @SuppressWarnings("unused")
 public interface LogicGetter {
@@ -13,4 +14,5 @@ public interface LogicGetter {
     AliasManager constructAliasManager(Config config);
     List<String> getPermissions(AdaptedPlayer player);
     PermissionGetter getPermissionGetter();
+    List<String> getPermissions(UUID uuid);
 }

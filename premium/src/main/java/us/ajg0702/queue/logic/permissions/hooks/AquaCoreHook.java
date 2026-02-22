@@ -1,5 +1,6 @@
 package us.ajg0702.queue.logic.permissions.hooks;
 
+import me.activated.core.api.player.PlayerData;
 import me.activated.core.plugin.AquaCoreAPI;
 import us.ajg0702.queue.api.players.AdaptedPlayer;
 import us.ajg0702.queue.common.QueueMain;
@@ -7,6 +8,7 @@ import us.ajg0702.queue.api.premium.PermissionHook;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class AquaCoreHook implements PermissionHook {
 
@@ -36,16 +38,24 @@ public class AquaCoreHook implements PermissionHook {
     }
 
     @Override
-    public List<String> getPermissions(AdaptedPlayer player) {
+    public List<String> getPermissions(UUID uuid) {
         AquaCoreAPI api = AquaCoreAPI.INSTANCE;
+
+        PlayerData data = api.getPlayerData(uuid);
+        if (data == null) return new ArrayList<>();
 
         List<String> permissions = new ArrayList<>();
 
-        api.getPlayerData(player.getUniqueId()).getActiveGrants().forEach(grant -> {
+        data.getActiveGrants().forEach(grant -> {
             if(!grant.isActiveSomewhere() || grant.hasExpired()) return;
             permissions.addAll(grant.getRank().getAvailablePermissions());
         });
 
         return permissions;
+    }
+
+    @Override
+    public List<String> getPermissions(AdaptedPlayer player) {
+        return getPermissions(player.getUniqueId());
     }
 }

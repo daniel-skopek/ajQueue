@@ -2,6 +2,7 @@ target
 .idea
 .classpath
 .project
+.factorypath
 dependency-reduced-pom.xml
 .gradle
 build

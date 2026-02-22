@@ -32,13 +32,18 @@ public class LuckPermsHook implements PermissionHook {
 
     @Override
     public List<String> getPermissions(AdaptedPlayer player) {
+        return getPermissions(player.getUniqueId());
+    }
+
+    @Override
+    public List<String> getPermissions(UUID uuid) {
         LuckPerms api = LuckPermsProvider.get();
 
-        User user = api.getUserManager().getUser(player.getUniqueId());
+        User user = api.getUserManager().getUser(uuid);
 
         if(user == null) {
-            main.getLogger().warn("LuckPerms doesnt seem to have data loaded for "+player.getName()+"! " +
-                    "Because of this I can't load priority permissions. Acting like "+player.getName()+" doesnt have any.");
+            main.getLogger().warn("LuckPerms doesnt seem to have data loaded for "+uuid+"! " +
+                    "Because of this I can't load priority permissions. Acting like "+uuid+" doesnt have any.");
             return Collections.emptyList();
         }
 

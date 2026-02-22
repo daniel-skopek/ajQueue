@@ -2,7 +2,9 @@ package us.ajg0702.queue.api.premium;
 
 import us.ajg0702.queue.api.players.AdaptedPlayer;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 public interface PermissionHook {
     String getName();
@@ -11,4 +13,5 @@ public interface PermissionHook {
     default boolean hasPermissionInAnyContext(AdaptedPlayer player, String permission) {
         return player.hasPermission(permission);
     }
+    List<String> getPermissions(UUID uuid);
 }
