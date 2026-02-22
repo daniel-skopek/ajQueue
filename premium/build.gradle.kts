@@ -12,6 +12,7 @@ repositories {
     maven { url = uri("https://oss.sonatype.org/content/repositories/snapshots") }
 //    maven { url = uri("https://repo.techscode.com/repository/maven-releases/") }
     mavenCentral()
+    maven { url = uri("https://maven.refinedev.xyz/public-repo/") }
 }
 
 dependencies {
@@ -31,6 +32,7 @@ dependencies {
     compileOnly(fileTree(mapOf("dir" to "../libs/private", "include" to listOf("*.jar"))))
     compileOnly(fileTree(mapOf("dir" to "../libs/public", "include" to listOf("*.jar"))))
 
+    compileOnly("xyz.refinedev.phoenix:pxAPI:2.0")
     compileOnly("net.luckperms:api:5.4")
 }
 

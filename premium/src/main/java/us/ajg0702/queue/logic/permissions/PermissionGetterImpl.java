@@ -6,10 +6,7 @@ import us.ajg0702.queue.api.premium.PermissionGetter;
 import us.ajg0702.queue.api.premium.PermissionHook;
 import us.ajg0702.queue.common.QueueMain;
 import us.ajg0702.queue.common.utils.Debug;
-import us.ajg0702.queue.logic.permissions.hooks.AquaCoreHook;
-import us.ajg0702.queue.logic.permissions.hooks.BuiltInHook;
-import us.ajg0702.queue.logic.permissions.hooks.LuckPermsHook;
-import us.ajg0702.queue.logic.permissions.hooks.UltraPermissionsHook;
+import us.ajg0702.queue.logic.permissions.hooks.*;
 
 import java.util.*;
 
@@ -21,7 +18,8 @@ public class PermissionGetterImpl implements PermissionGetter {
         AjQueueAPI.getPermissionHookRegistry().register(
                 new LuckPermsHook(main),
                 new UltraPermissionsHook(main),
-                new AquaCoreHook(main)
+                new AquaCoreHook(main),
+                new PhoenixHook(main)
         );
         builtInHook = new BuiltInHook(main);
         this.main = main;
