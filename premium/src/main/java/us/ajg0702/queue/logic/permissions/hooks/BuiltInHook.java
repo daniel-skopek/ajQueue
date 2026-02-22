@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class BuiltInHook implements PermissionHook {
 
@@ -26,10 +27,39 @@ public class BuiltInHook implements PermissionHook {
         return true;
     }
 
+    private final List<String> fallbackPriorityPermissions = new ArrayList<>();
+    private final List<String> fallbackStayQueuedPermissions = new ArrayList<>();
+    private String currentFallbackStayQueuedRaw = "";
+
     @Override
     public List<String> getPermissions(AdaptedPlayer player) {
         if(main.getConfig().getBoolean("plus-level-fallback")) {
+            int fallbackPriorityLevels = main.getConfig().getInt("fallback-priority-levels");
+            if(fallbackPriorityPermissions.size() != fallbackPriorityLevels) {
+                fallbackPriorityPermissions.clear();
+                for (int i = 1; i <= fallbackPriorityLevels; i++) {
+                    fallbackPriorityPermissions.add("ajqueue.priority." + i);
+                }
+            }
+
+            String fallbackStayQueuedRaw = main.getConfig().getString("fallback-stayqueued-levels");
+            if(!currentFallbackStayQueuedRaw.equals(fallbackStayQueuedRaw)) {
+                currentFallbackStayQueuedRaw = fallbackStayQueuedRaw;
+                fallbackStayQueuedPermissions.clear();
+                List<String> levels = Arrays.stream(fallbackStayQueuedRaw.split(","))
+                        .map(String::trim)
+                        .collect(Collectors.toList());
+                for(String level : levels) {
+                    fallbackStayQueuedPermissions.add("ajqueue.stayqueued." + level);
+                }
+            }
+
             List<String> hasPermissions = new ArrayList<>();
+
+            ArrayList<String> fallbackPermissions = new ArrayList<>(fallbackPriorityPermissions.size() + fallbackStayQueuedPermissions.size());
+            fallbackPermissions.addAll(fallbackPriorityPermissions);
+            fallbackPermissions.addAll(fallbackStayQueuedPermissions);
+
             for (String fallbackPermission : fallbackPermissions) {
                 if(player.hasPermission(fallbackPermission)) {
                     hasPermissions.add(fallbackPermission);
@@ -48,21 +78,4 @@ public class BuiltInHook implements PermissionHook {
 
         return player.getPermissions();
     }
-
-    private final List<String> fallbackPermissions = Arrays.asList(
-            "ajqueue.priority.1",
-            "ajqueue.priority.2",
-            "ajqueue.priority.3",
-            "ajqueue.priority.4",
-            "ajqueue.priority.5",
-            "ajqueue.priority.6",
-            "ajqueue.priority.7",
-            "ajqueue.priority.8",
-            "ajqueue.priority.9",
-            "ajqueue.priority.10",
-            "ajqueue.stayqueued.15",
-            "ajqueue.stayqueued.30",
-            "ajqueue.stayqueued.60",
-            "ajqueue.stayqueued.120"
-    );
 }

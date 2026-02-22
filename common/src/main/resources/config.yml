@@ -430,7 +430,21 @@ minimum-ping-time: 1.0
 #  be able to use levels 1-10 for priority, or 15, 30, 60, and 120 for stayqueued
 # If you want more levels than that, contact aj to add support for your permission plugin if possible.
 # Does nothing if you are not on ajQueuePlus, or if you have a supported permission plugin
+#  Default: false
 plus-level-fallback: false
+
+# How many priority levels should we check when plus-level-fallback is enabled?
+# Note that increasing this too much may have performance benefits, because
+#  this number plus fallback-stayqueued-levels permissions will be checked every time either one needs to be checked.
+# Default: 10
+fallback-priority-levels: 10
+
+# What stayqueued values should we check when plus-level-fallback is enabled?
+# This is a comma-separated list of numbers that go in the stayqueued permission.
+# Note that increasing this too much may have performance benefits, because
+#  this number plus fallback-priority-levels permissions will be checked every time either one needs to be checked.
+# Default: "15, 30, 60, 120"
+fallback-stayqueued-levels: "15, 30, 60, 120"
 
 # How many send times should we keep track of for calculating ETAs?
 # The time between players being sent to the server is averaged to get the ETA.
@@ -485,7 +499,7 @@ debug: false
 
 
 # Don't touch this number please
-config-version: 64
+config-version: 65
 
 
 # This is ONLY here so that they can be moved to messages.yml. Please edit these in messages.yml!
