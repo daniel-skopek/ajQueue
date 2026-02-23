@@ -314,6 +314,8 @@ public class QueueMain extends AjQueueAPI {
         d.put("errors.wrong-version.base", "<red>You must be on {VERSIONS} to join this server!");
         d.put("errors.wrong-version.or", " or ");
         d.put("errors.wrong-version.comma", ", ");
+        d.put("errors.wrong-version.title", "<red><bold>Wrong Version");
+        d.put("errors.wrong-version.subtitle", "<gold>Please join with <yellow>{VERSIONS}<gold>.");
         d.put("errors.too-fast-queue", "<red>You're queueing too fast!");
         d.put("errors.kicked-to-make-room", "<red>You were moved to the lobby to make room for another player.");
         d.put("errors.make-room-failed.player", "<red>Failed to make room for you in that server.");

@@ -203,11 +203,33 @@ public class QueueManagerImpl implements QueueManager {
                     versions.append(msgs.getString("errors.wrong-version.comma"));
                 }
             }
-            player.sendMessage(msgs.getComponent(
-                    "errors.wrong-version.base",
-                    "VERSIONS:" + versions,
-                    "SERVER:"+server.getAlias()
-            ));
+            if(main.getConfig().getBoolean("wrong-version-title")) {
+                Component titleMessage = msgs.getComponent("errors.wrong-version.title", "SERVER:" + server.getAlias());
+                Component subTitleMessage = msgs.getComponent(
+                        "errors.wrong-version.subtitle",
+                        "SERVER:" + server.getAlias(),
+                        "VERSIONS:" + versions
+                );
+                Title title = Title.title(
+                        titleMessage,
+                        subTitleMessage,
+                        Title.Times.times(Duration.ofMillis(500), Duration.ofSeconds(4L), Duration.ofSeconds(2L))
+                );
+                player.showTitle(title);
+                if(!main.getConfig().getBoolean("wrong-version-title-replace-chat")) {
+                    player.sendMessage(msgs.getComponent(
+                            "errors.wrong-version.base",
+                            "VERSIONS:" + versions,
+                            "SERVER:" + server.getAlias()
+                    ));
+                }
+            } else {
+                player.sendMessage(msgs.getComponent(
+                        "errors.wrong-version.base",
+                        "VERSIONS:" + versions,
+                        "SERVER:" + server.getAlias()
+                ));
+            }
             return false;
         }
 

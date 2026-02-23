@@ -406,6 +406,21 @@ priority-queue-debug: false
 supported-protocols:
   - "1.17:755,756"
 
+# Should a title be shown when a player is rejected from a queue due to wrong version?
+#  Default: false
+wrong-version-title: false
+
+# The time settings for the wrong version title in seconds (decimals supported)
+# Format: Fade In:Stay:Fade Out
+# So for example, with the default values, the title will take 0.5s to fade in, stay fully on screen for 4 seconds,
+#  then fade out over 2 seconds.
+# Default: 0.5:4:2
+wrong-version-title-times: "0.5:4:2"
+
+# Should the chat message be hidden when wrong-version-title is enabled?
+#  Default: false
+wrong-version-title-replace-chat: false
+
 # Should the updater be enabled?
 enable-updater: true
 
@@ -499,7 +514,7 @@ debug: false
 
 
 # Don't touch this number please
-config-version: 65
+config-version: 66
 
 
 # This is ONLY here so that they can be moved to messages.yml. Please edit these in messages.yml!
