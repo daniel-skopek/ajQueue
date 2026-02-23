@@ -24,6 +24,7 @@ import us.ajg0702.utils.common.TimeUtils;
 import java.time.Duration;
 import java.util.*;
 import java.util.concurrent.*;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 public class QueueManagerImpl implements QueueManager {
@@ -210,12 +211,38 @@ public class QueueManagerImpl implements QueueManager {
                         "SERVER:" + server.getAlias(),
                         "VERSIONS:" + versions
                 );
-                Title title = Title.title(
-                        titleMessage,
-                        subTitleMessage,
-                        Title.Times.times(Duration.ofMillis(500), Duration.ofSeconds(4L), Duration.ofSeconds(2L))
+                String rawTitleTimes = main.getConfig().getString("wrong-version-title-times");
+                String[] rawTitleTimesParts = rawTitleTimes == null ? new String[0] : rawTitleTimes.split(":");
+
+                long in = 500;
+                long stay = 4000;
+                long out = 2000;
+
+                if(rawTitleTimesParts.length < 3) {
+                    main.getLogger().warn("Incorrect setting for wrong-version-title-times! There must be 3 values separated by a colon (:)! Using defaults.");
+                } else {
+                    Function<String, Long> parse = (String s) -> Math.round(Float.parseFloat(s.trim()) * 1000d);
+                    try {
+                        in = parse.apply(rawTitleTimesParts[0]);
+                        stay = parse.apply(rawTitleTimesParts[1]);
+                        out = parse.apply(rawTitleTimesParts[2]);
+                    } catch(NumberFormatException e) {
+                        main.getLogger().warn("Invalid number in wrong-version-title-times! Using defaults. Error: " + e.getMessage());
+                    }
+                }
+
+                player.showTitle(
+                        Title.title(
+                                titleMessage,
+                                subTitleMessage,
+                                Title.Times.times(
+                                        Duration.ofMillis(in),
+                                        Duration.ofMillis(stay),
+                                        Duration.ofMillis(out)
+                                )
+                        )
                 );
-                player.showTitle(title);
+
                 if(!main.getConfig().getBoolean("wrong-version-title-replace-chat")) {
                     player.sendMessage(msgs.getComponent(
                             "errors.wrong-version.base",
