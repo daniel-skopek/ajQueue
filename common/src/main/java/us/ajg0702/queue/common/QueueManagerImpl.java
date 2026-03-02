@@ -43,6 +43,40 @@ public class QueueManagerImpl implements QueueManager {
         main.getTaskManager().runLater(this::reloadServers, delay, TimeUnit.MILLISECONDS);
     }
 
+    /**
+     * Gets the aggregated supported protocols from all servers in a group.
+     * If any server has no restrictions (empty protocols), returns empty set to allow all.
+     * @param server The server (or group) to get protocols from
+     * @return Set of supported protocol versions, or empty set if any server is unrestricted
+     */
+    private Set<Integer> getGroupSupportedProtocols(QueueServer server) {
+        if (!server.isGroup()) {
+            return new HashSet<>(server.getSupportedProtocols());
+        }
+        
+        Set<Integer> allProtocols = new HashSet<>();
+        boolean anyUnrestricted = false;
+        
+        for (AdaptedServer adaptedServer : server.getServers()) {
+            QueueServer memberServer = findServer(adaptedServer.getName());
+            if (memberServer == null) continue;
+            
+            List<Integer> protocols = memberServer.getSupportedProtocols();
+            if (protocols.isEmpty()) {
+                anyUnrestricted = true;
+                break;
+            }
+            allProtocols.addAll(protocols);
+        }
+        
+        if (anyUnrestricted) {
+            return Collections.emptySet();
+        }
+        return allProtocols;
+    }
+
+
+
     public List<QueueServer> buildServers() {
         List<QueueServer> result = new ArrayList<>();
 
@@ -193,14 +227,16 @@ public class QueueManagerImpl implements QueueManager {
         Debug.info("addToQueue method called for "+player.getName()+" to "+server.getName());
 
         int playerVersion = player.getProtocolVersion();
-        List<Integer> supportedProtocols = server.getSupportedProtocols();
-        if(!supportedProtocols.contains(playerVersion) && supportedProtocols.size() > 0) {
+        Set<Integer> supportedProtocols = getGroupSupportedProtocols(server);
+        if(!supportedProtocols.contains(playerVersion) && !supportedProtocols.isEmpty()) {
             StringBuilder versions = new StringBuilder();
-            for(int protocol : supportedProtocols) {
+            List<Integer> protocolList = new ArrayList<>(supportedProtocols);
+            for(int i = 0; i < protocolList.size(); i++) {
+                int protocol = protocolList.get(i);
                 versions.append(main.getProtocolNameManager().getProtocolName(protocol));
-                if(supportedProtocols.indexOf(protocol) == supportedProtocols.size()-2) {
+                if(i == protocolList.size()-2) {
                     versions.append(msgs.getString("errors.wrong-version.or"));
-                } else if(supportedProtocols.indexOf(protocol) != supportedProtocols.size()-1) {
+                } else if(i != protocolList.size()-1) {
                     versions.append(msgs.getString("errors.wrong-version.comma"));
                 }
             }
