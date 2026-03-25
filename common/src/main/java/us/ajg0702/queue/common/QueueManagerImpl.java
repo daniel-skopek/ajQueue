@@ -818,7 +818,7 @@ public class QueueManagerImpl implements QueueManager {
             if(!server.isOnline()) continue;
 
             QueueType lastSend = server.getLastQueueSend();
-            ExpressRatio expressRatio = main.getExpressRatio();
+            ExpressRatio expressRatio = main.isPremium() ? main.getExpressRatio() : ExpressRatio.oneToOne();
 
             boolean express = main.isPremium() && lastSend == QueueType.EXPRESS;
             if(main.isPremium()) {

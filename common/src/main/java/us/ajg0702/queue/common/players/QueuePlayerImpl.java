@@ -78,6 +78,9 @@ public class QueuePlayerImpl implements QueuePlayer {
 
     @Override
     public int getAbsolutePosition() {
+        // non-premium doesnt have express, so position is always the absolute position
+        if(!AjQueueAPI.getInstance().isPremium()) return getPosition();
+
         int otherQueueSize = isInStandardQueue() ?
                 server.getQueueHolder().getExpressQueueSize() :
                 server.getQueueHolder().getStandardQueueSize();
