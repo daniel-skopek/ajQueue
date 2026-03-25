@@ -4,6 +4,7 @@ import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandMap;
 import org.bukkit.command.CommandSender;
@@ -215,7 +216,7 @@ public class SpigotMain extends JavaPlugin implements PluginMessageListener,List
 			getScheduler().runTaskLaterAsynchronously(() -> {
 				if(hasProxy()) return;
 				sender.sendMessage(
-						color(
+						ChatColor.translateAlternateColorCodes('&',
 								"&c" +
 										(sender.hasPermission("ajqueue.manage") ? "ajQueue" : "The queue plugin") +
 										" must also be installed on the proxy!&7 If it has been installed on the proxy, make sure it loaded correctly and try again."
