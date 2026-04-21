@@ -17,13 +17,8 @@ public class QueueCommand extends BaseCommand {
 
     private final QueueMain main;
 
-    private final String permission;
-
     public QueueCommand(QueueMain main) {
         this.main = main;
-        permission = main.getConfig().getBoolean("require-queue-permission")
-                ? "ajqueue.queue"
-                : null;
     }
 
     @Override
@@ -47,7 +42,9 @@ public class QueueCommand extends BaseCommand {
 
     @Override
     public String getPermission() {
-        return permission;
+        return main.getConfig().getBoolean("require-queue-permission")
+                ? "ajqueue.queue"
+                : null;
     }
 
     @Override
