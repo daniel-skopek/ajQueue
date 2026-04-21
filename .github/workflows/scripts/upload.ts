@@ -187,7 +187,7 @@ async function uploadToPolymart(event: GithubPushEvent, resource_id: string, ver
         uploadData.append("file", file);
 
         uploadResponse = await fetch(polymartResponseData.upload.url, {
-            method: "POST",
+            method: "PUT",
             headers: {
                 "User-Agent": "ajUpdater/2.0",
                 "enctype": "multipart/form-data"
