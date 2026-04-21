@@ -43,6 +43,14 @@ message-time: 10
 #  Default: false
 require-permission: false
 
+# Should we require the permission ajqueue.queue to use the base /queue command?
+# If enabled, players will need the ajqueue.queue permission to use the base /queue command
+# This is separate from the require-permission option above
+# Mainly for if your backend server has a queue command you dont want to be overridden,
+#  you can deny this permission on that server
+#  Default: false
+require-queue-permission: false
+
 # Should we act like servers a player doesn't have permission for doesn't exist?
 # So if a player doesn't have permission to queue for a server, and they try to queue for it,
 #  ajQueue will send the server-not-exist message instead of the noperm message.
@@ -514,7 +522,7 @@ debug: false
 
 
 # Don't touch this number please
-config-version: 66
+config-version: 67
 
 
 # This is ONLY here so that they can be moved to messages.yml. Please edit these in messages.yml!
