@@ -181,9 +181,9 @@ async function uploadToPolymart(event: GithubPushEvent, resource_id: string, ver
         const polymartResponseData = (await firstResponse.clone().json()).response;
 
         const uploadData = new FormData();
-        for (let [k, v] of Object.entries(polymartResponseData.upload.fields)) {
-            uploadData.append(k, v as any);
-        }
+        // for (let [k, v] of Object.entries(polymartResponseData.upload.fields)) {
+        //     uploadData.append(k, v as any);
+        // }
         uploadData.append("file", file);
 
         uploadResponse = await fetch(polymartResponseData.upload.url, {
