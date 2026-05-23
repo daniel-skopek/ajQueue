@@ -114,6 +114,8 @@ public class BungeeQueue extends Plugin implements Listener, Implementation {
         if(!e.getTag().equals("ajqueue:toproxy")) return;
         e.setCancelled(true);
 
+        if(e.getSender() instanceof ProxiedPlayer) return;
+
         if(!(e.getReceiver() instanceof ProxiedPlayer)) return;
 
         ProxyServer.getInstance().getScheduler().runAsync(this, () ->

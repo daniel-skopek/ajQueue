@@ -130,6 +130,9 @@ public class VelocityQueue implements Implementation {
         if(!e.getIdentifier().getId().equals("ajqueue:toproxy")) return;
         e.setResult(PluginMessageEvent.ForwardResult.handled());
 
+        // Reject messages sent directly by player clients — only accept from backend servers
+        if(e.getSource() instanceof Player) return;
+
         if(!(e.getTarget() instanceof Player)) return;
 
         main.getEventHandler().handleMessage(new VelocityPlayer((Player) e.getTarget()), e.getData());
