@@ -30,6 +30,7 @@ import us.ajg0702.queue.commands.commands.manage.ManageCommand;
 import us.ajg0702.queue.commands.commands.queue.QueueCommand;
 import us.ajg0702.queue.commands.commands.send.SendAlias;
 import us.ajg0702.queue.common.QueueMain;
+import us.ajg0702.queue.common.utils.Debug;
 import us.ajg0702.queue.platforms.velocity.commands.VelocityCommand;
 import us.ajg0702.queue.platforms.velocity.players.VelocityPlayer;
 import us.ajg0702.queue.platforms.velocity.server.VelocityServer;
@@ -134,6 +135,10 @@ public class VelocityQueue implements Implementation {
         if(e.getSource() instanceof Player) return;
 
         if(!(e.getTarget() instanceof Player)) return;
+
+        Debug.info("Processing toproxy message from "
+                + e.getSource().getClass().getSimpleName() + ": " + e.getSource()
+                + " target=" + ((Player) e.getTarget()).getUsername());
 
         main.getEventHandler().handleMessage(new VelocityPlayer((Player) e.getTarget()), e.getData());
     }
