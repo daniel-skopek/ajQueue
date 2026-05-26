@@ -388,7 +388,7 @@ public class QueueServerImpl implements QueueServer {
     public boolean isGroup() {
         return
                 servers.size() > 1 || // more than one server is obviously a group
-                (servers.size() == 1 && servers.get(0).getName().equals(name)); // also a group if this QueueServer name is diff than the one target server in this QueueServer
+                (servers.size() == 1 && !servers.get(0).getName().equals(name)); // also a group if this QueueServer name is diff than the one target server in this QueueServer
     }
 
     @Override
