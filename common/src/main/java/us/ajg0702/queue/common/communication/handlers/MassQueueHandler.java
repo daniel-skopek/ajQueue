@@ -17,6 +17,7 @@ public class MassQueueHandler extends MessageHandler {
 
     @Override
     public ComResponse handleMessage(AdaptedPlayer player, String data) {
+        if(!main.getConfig().getBoolean("enable-massqueue-message")) return null;
         String[] parts = data.split(",");
         for(String part : parts) {
             String[] playerParts = part.split(":");

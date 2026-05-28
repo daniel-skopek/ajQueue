@@ -507,6 +507,13 @@ disable-proxy-communication: false
 #  Default: 0 (uses read-timeout from the velocity config)
 ping-timeout: 0
 
+# Should we accept messages from send-queue-commands-in-batches on the spigot side?
+# This option exists because some versions of Velocity have a bug where plugin messages sent from players are treated as messages from the server.
+# That means if you have a vulnerable version of Velocity and this option is enabled, any player can use this to queue any other player whenever they want.
+# Disable this if you are using a vulnerable velocity version. As of writing (2026/05/27), the fix has not yet been released. I'll update this once it is.
+#  Default: true
+enable-massqueue-message: true
+
 # Should we print some extra stuff to the console that might help aj diagnose some issues?
 debug: false
 
@@ -522,7 +529,7 @@ debug: false
 
 
 # Don't touch this number please
-config-version: 67
+config-version: 68
 
 
 # This is ONLY here so that they can be moved to messages.yml. Please edit these in messages.yml!
